@@ -16,6 +16,27 @@ class QuoteEngineTest(unittest.TestCase):
         """Set up the env for the test cases."""
         pass
 
-    def test_txt_ingestor(self):
-        txt_ingestor = TXTIngestor(['txt', 'text'])
+    def test_txt_ingestor_can_ingest_allowed_extensions(self):
+        txt_ingestor = TXTIngestor()
+        txt_ingestor.set_allowed_extensions(['text', 'txt'])
         self.assertIsNotNone(txt_ingestor)
+        for path_file in TEST_TXT_FILES:
+            self.assertTrue(txt_ingestor.can_ingest(path_file.name))
+
+    def test_txt_ingestor_cannot_ingest_not_allowed_extensions(self):
+        txt_ingestor = TXTIngestor()
+        txt_ingestor.set_allowed_extensions(['text', 'txt'])
+        self.assertIsNotNone(txt_ingestor)
+        self.assertFalse(txt_ingestor.can_ingest('some_file.texto'))
+        self.assertFalse(txt_ingestor.can_ingest('some_file.tst'))
+        self.assertFalse(txt_ingestor.can_ingest('some_file.pdf'))
+
+    def test_txt_ingestor_raise_exceptions(self):
+        txt_ingestor = TXTIngestor()
+        txt_ingestor.set_allowed_extensions(['text', 'txt'])
+        with self.assertRaises(Exception):
+            txt_ingestor.can_ingest('')
+
+        with self.assertRaises(Exception):
+            txt_ingestor.can_ingest('file-without_extension')
+
