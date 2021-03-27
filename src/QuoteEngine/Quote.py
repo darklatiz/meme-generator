@@ -63,8 +63,20 @@ class CSVIngestor(IngestorInterface):
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
-        """PArse a CSV File and create a list of Quote Models."""
+        """Parse a CSV File and create a list of Quote Models."""
 
     def __str__(self):
         """Create String representation of the Object."""
         return f"I am a CSVIngestor, extensions allowed = {self.allowed_extensions}"
+
+
+class PDFIngestor(IngestorInterface):
+    """PDF Ingestor."""
+
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        """Parse a PDF File and create a list of Quote Models."""
+
+    def __str__(self):
+        """Create String representation of the Object."""
+        return f"I am a PDFIngestor, extensions allowed = {self.allowed_extensions}"
