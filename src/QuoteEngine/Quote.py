@@ -56,3 +56,15 @@ class TXTIngestor(IngestorInterface):
     def __str__(self):
         """Found String representation of the object."""
         return f"I am a TXTIngestor, extensions_allowed = {self.allowed_extensions}"
+
+
+class CSVIngestor(IngestorInterface):
+    """CSV Ingestor."""
+
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        """PArse a CSV File and create a list of Quote Models."""
+
+    def __str__(self):
+        """Create String representation of the Object."""
+        return f"I am a CSVIngestor, extensions allowed = {self.allowed_extensions}"
