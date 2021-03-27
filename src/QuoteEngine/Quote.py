@@ -23,13 +23,12 @@ class IngestorInterface(ABC):
 
     @classmethod
     def set_allowed_extensions(cls, allowed):
-        """Initialize text extensions"""
+        """Initialize text extensions."""
         cls.allowed_extensions = allowed
 
     @classmethod
     def can_ingest(cls, path: str) -> bool:
-        """Check if the ingestor is able to parse a file"""
-
+        """Check if the ingestor is able to parse a file."""
         if path is None or len(path) <= 0:
             raise Exception("Path is not valid")
 
@@ -42,17 +41,18 @@ class IngestorInterface(ABC):
     @classmethod
     @abstractmethod
     def parse(cls, path: str) -> List[QuoteModel]:
-        """Parse a file"""
+        """Parse a file."""
         pass
 
 
 class TXTIngestor(IngestorInterface):
-    """Text Ingestor"""
+    """Text Ingestor."""
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
+        """Parse a TEXT file and create a list of Quote Models."""
         pass
 
     def __str__(self):
-        """String representation of the object."""
+        """Found String representation of the object."""
         return f"I am a TXTIngestor, extensions_allowed = {self.allowed_extensions}"
