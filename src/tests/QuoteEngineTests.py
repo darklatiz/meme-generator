@@ -135,6 +135,28 @@ class QuoteEngineTest(unittest.TestCase):
         with self.assertRaises(Exception):
             pdf_ingestor.can_ingest('file-without_extension')
 
+    def test_pdf_ingestor_parse(self):
+        pdf_ingestor = PDFIngestor()
+        pdf_ingestor.set_allowed_extensions(['pdf'])
+
+        for text_file in TEST_PDF_FILES:
+            quotes_lst = pdf_ingestor.parse(str(text_file))
+            self.assertIsNotNone(quotes_lst)
+            self.assertTrue(len(quotes_lst) > 0)
+            for q in quotes_lst:
+                self.assertIsInstance(q, QuoteModel)
+                print(q)
+
+    def test_pdf_ingestor_parse_exception(self):
+        pdf_ingestor = PDFIngestor()
+        pdf_ingestor.set_allowed_extensions(['pdf'])
+
+        with self.assertRaises(Exception):
+            pdf_ingestor.parse('')
+
+        with self.assertRaises(Exception):
+            pdf_ingestor.parse('some')
+
     def test_docx_ingestor_can_ingest_allowed_extensions(self):
         docx_ingestor = DOCXIngestor()
         docx_ingestor.set_allowed_extensions(['docx', 'doc'])

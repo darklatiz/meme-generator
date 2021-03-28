@@ -1,7 +1,9 @@
 """Module to contain all the Quote engine classes."""
 from abc import ABC, abstractmethod
+from subprocess import Popen, PIPE, check_output
 from typing import List
 import csv
+import shlex
 
 
 class QuoteModel:
@@ -48,6 +50,16 @@ class IngestorInterface(ABC):
         return w
 
     @classmethod
+    def tokenize_quote(cls, word: str, splitter_character: str):
+        """Split the word using the splitter character"""
+        if splitter_character not in word:
+            return None, None
+        parts = word.split(splitter_character)
+        quote_body = cls.clean(parts[0])
+        quote_author = cls.clean(parts[1])
+        return quote_author, quote_body
+
+    @classmethod
     def can_ingest(cls, path: str) -> bool:
         """Check if the ingestor is able to parse a file."""
         if path is None or len(path) <= 0 or '.' not in path:
@@ -81,10 +93,9 @@ class TXTIngestor(IngestorInterface):
             with open(path, 'r') as in_file:
                 for line in in_file:
                     # line = "line" - author and To be or not to be - Perrofono
-                    parts = line.split('-')
-                    quote_body = cls.clean(parts[0])
-                    quote_author = cls.clean(parts[1])
-                    quotes.append(QuoteModel(quote_author, quote_body))
+                    author, body = cls.tokenize_quote(line, '-')
+                    if author is not None and body is not None:
+                        quotes.append(QuoteModel(author, body))
 
             return quotes
         else:
@@ -122,6 +133,18 @@ class PDFIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a PDF File and create a list of Quote Models."""
+        if cls.can_ingest(path):
+            quotes = list()
+            command = ['pdftotext', '-layout', path, '-']
+            output = check_output(command).decode()
+            lines = output.split("\n")
+            for line in lines:
+                author, body = cls.tokenize_quote(line, '-')
+                if author is not None and body is not None:
+                    quotes.append(QuoteModel(author, body))
+            return quotes
+        else:
+            raise Exception(f"File {path} cannot be parsed")
 
     def __str__(self):
         """Create String representation of the Object."""
