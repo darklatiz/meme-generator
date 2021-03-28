@@ -65,8 +65,6 @@ class QuoteEngineTest(unittest.TestCase):
         with self.assertRaises(Exception):
             txt_ingestor.parse('some')
 
-
-
     def test_csv_ingestor_can_ingest_allowed_extensions(self):
         csv_ingestor = CSVIngestor()
         csv_ingestor.set_allowed_extensions(['csv'])
