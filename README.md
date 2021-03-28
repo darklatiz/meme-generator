@@ -1,5 +1,11 @@
 # Meme Generator
 
+## [Python DOCX](https://python-docx.readthedocs.io/en/latest/user/install.html#install)
+
+```shell
+pip install python-docx
+```
+
 ## Tests
 
 - To execute tests

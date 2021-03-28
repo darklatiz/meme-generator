@@ -2,6 +2,7 @@
 from abc import ABC, abstractmethod
 from subprocess import Popen, PIPE, check_output
 from typing import List
+import docx
 import csv
 import shlex
 
@@ -154,8 +155,18 @@ class PDFIngestor(IngestorInterface):
 class DOCXIngestor(IngestorInterface):
     """DOCx Ingestor."""
 
+    @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a Doc File and create a list of Quote Models."""
+        if cls.can_ingest(path):
+            doc = docx.Document(path)
+            quotes = list()
+            for p in doc.paragraphs:
+                author, body = cls.tokenize_quote(p.text, '-')
+                quotes.append(QuoteModel(author, body))
+            return quotes
+        else:
+            raise Exception(f"File {path} cannot be parsed")
 
     def __str__(self):
         """Create String representation of the object."""

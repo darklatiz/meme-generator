@@ -180,3 +180,25 @@ class QuoteEngineTest(unittest.TestCase):
 
         with self.assertRaises(Exception):
             docx_ingestor.can_ingest('file-without_extension')
+
+    def test_docx_ingestor_parse(self):
+        docx_ingestor = DOCXIngestor()
+        docx_ingestor.set_allowed_extensions(['docx'])
+
+        for text_file in TEST_DOCX_FILES:
+            quotes_lst = docx_ingestor.parse(str(text_file))
+            self.assertIsNotNone(quotes_lst)
+            self.assertTrue(len(quotes_lst) > 0)
+            for q in quotes_lst:
+                self.assertIsInstance(q, QuoteModel)
+                print(q)
+
+    def test_docx_ingestor_parse_exception(self):
+        docx_ingestor = DOCXIngestor()
+        docx_ingestor.set_allowed_extensions(['docx'])
+
+        with self.assertRaises(Exception):
+            docx_ingestor.parse('')
+
+        with self.assertRaises(Exception):
+            docx_ingestor.parse('some')
