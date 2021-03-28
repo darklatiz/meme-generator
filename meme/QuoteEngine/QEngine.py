@@ -17,16 +17,17 @@ class QuoteModel:
 
     @property
     def quote(self):
-        """Create a property to access quotes' body value"""
+        """Create a property to access quotes' body value."""
         return self.__body
 
     @property
     def author(self):
+        """Create a property to access quotes' author."""
         return self.__author
 
     @quote.setter
     def quote(self, new_quote):
-        """Set new value to quotes' body"""
+        """Set new value to quotes' body."""
         self.__body = new_quote
 
     def __str__(self):
@@ -46,13 +47,13 @@ class IngestorInterface(ABC):
 
     @classmethod
     def clean(cls, word: str):
-        """Clean remove characters"""
+        """Clean remove characters."""
         w = word.strip().replace("'", "").replace('"', "")
         return w
 
     @classmethod
     def tokenize_quote(cls, word: str, splitter_character: str):
-        """Split the word using the splitter character"""
+        """Split the word using the splitter character."""
         if splitter_character not in word:
             return None, None
         parts = word.split(splitter_character)
@@ -88,7 +89,6 @@ class TXTIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a TEXT file and create a list of Quote Models."""
-
         if cls.can_ingest(path):
             quotes = list()
             with open(path, 'r') as in_file:
@@ -170,3 +170,34 @@ class DOCXIngestor(IngestorInterface):
 
     def __str__(self):
         """Create String representation of the object."""
+
+
+class Ingestor(IngestorInterface):
+    """Ingestor will return the proper Ingestor available."""
+
+    __ingestors = []
+
+    def __init__(self):
+        txt_ = TXTIngestor()
+        txt_.set_allowed_extensions(['txt', 'text'])
+
+        csv_ = CSVIngestor()
+        csv_.set_allowed_extensions(['csv'])
+
+        pdf_ = PDFIngestor()
+        pdf_.set_allowed_extensions(['pdf'])
+
+        docx_ = DOCXIngestor()
+        docx_.set_allowed_extensions(['docx'])
+        self.__ingestors.append(txt_)
+        self.__ingestors.append(csv_)
+        self.__ingestors.append(pdf_)
+        self.__ingestors.append(docx_)
+
+    @classmethod
+    def parse(cls, path: str) -> List[QuoteModel]:
+        """Parse the proper ingestor, if available, to parse given path file."""
+        for ingestor in cls.__ingestors:
+            if ingestor.can_ingest(path):
+                return ingestor.parse(path)
+

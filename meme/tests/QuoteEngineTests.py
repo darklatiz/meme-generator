@@ -3,7 +3,7 @@
 import unittest
 import pathlib
 
-from src.QuoteEngine.Quote import TXTIngestor, CSVIngestor, PDFIngestor, DOCXIngestor, QuoteModel
+from meme.QuoteEngine.QEngine import TXTIngestor, CSVIngestor, PDFIngestor, DOCXIngestor, QuoteModel, Ingestor
 
 TESTS_ROOT = (pathlib.Path(__file__).parent).resolve()
 TEST_TXT_FILES = [TESTS_ROOT / 'test-dog-quotes.txt', TESTS_ROOT / 'test-simple-lines.text']
@@ -202,3 +202,22 @@ class QuoteEngineTest(unittest.TestCase):
 
         with self.assertRaises(Exception):
             docx_ingestor.parse('some')
+
+    def test_ingestor(self):
+        ingestor = Ingestor()
+
+        quotes_from_csv = ingestor.parse(str(TEST_CSV_FILES[0]))
+        self.assertIsNotNone(quotes_from_csv)
+        self.assertTrue(len(quotes_from_csv) > 0)
+
+        quotes_from_txt = ingestor.parse(str(TEST_TXT_FILES[1]))
+        self.assertIsNotNone(quotes_from_txt)
+        self.assertTrue(len(quotes_from_txt) > 0)
+
+        quotes_from_pdf = ingestor.parse(str(TEST_PDF_FILES[0]))
+        self.assertIsNotNone(quotes_from_pdf)
+        self.assertTrue(len(quotes_from_pdf) > 0)
+
+        quotes_from_docx = ingestor.parse(str(TEST_DOCX_FILES[0]))
+        self.assertIsNotNone(quotes_from_docx)
+        self.assertTrue(len(quotes_from_docx) > 0)
