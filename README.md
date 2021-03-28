@@ -1,5 +1,16 @@
 # Meme Generator
 
+## [Pillow](https://pillow.readthedocs.io/en/stable/installation.html)
+
+- Installation
+```shell
+python3 -m pip install --upgrade pip
+```
+
+```shell
+python3 -m pip install --upgrade Pillow
+```
+
 ## [Python DOCX](https://python-docx.readthedocs.io/en/latest/user/install.html#install)
 
 ```shell
