@@ -80,3 +80,13 @@ class PDFIngestor(IngestorInterface):
     def __str__(self):
         """Create String representation of the Object."""
         return f"I am a PDFIngestor, extensions allowed = {self.allowed_extensions}"
+
+
+class DOCXIngestor(IngestorInterface):
+    """DOCx Ingestor."""
+
+    def parse(cls, path: str) -> List[QuoteModel]:
+        """Parse a Doc File and create a list of Quote Models."""
+
+    def __str__(self):
+        """Create String representation of the object."""
