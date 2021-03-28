@@ -1,6 +1,7 @@
 """Module to contain all the Quote engine classes."""
 from abc import ABC, abstractmethod
 from typing import List
+import csv
 
 
 class QuoteModel:
@@ -100,6 +101,15 @@ class CSVIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a CSV File and create a list of Quote Models."""
+        if cls.can_ingest(path):
+            quotes = list()
+            with open(path, 'r') as file_csv:
+                reader = csv.DictReader(file_csv)
+                for row in reader:
+                    quotes.append(QuoteModel(row['author'], row['body']))
+                return quotes
+        else:
+            raise Exception(f"File {path} cannot be parsed")
 
     def __str__(self):
         """Create String representation of the Object."""
