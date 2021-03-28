@@ -27,7 +27,7 @@ class MemeEngine:
             pass
 
     def add_text(self, image, author, quote):
-        meme_font = ImageFont.truetype('_data/TrainOne-Regular.ttf', 20)
+        meme_font = ImageFont.truetype('_data/Chango-Regular.ttf', 20)
         meme_text = f"{quote} - {author}"
         image_editable = ImageDraw.Draw(image)
         image_editable.text((15, 15), meme_text, (237, 230, 211), font=meme_font)
