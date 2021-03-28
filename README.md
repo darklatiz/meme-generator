@@ -10,10 +10,10 @@ pip install python-docx
 
 - To execute tests
 ```shell
-python -m unittest --verbose src.tests.QuoteEngineTests  
+python -m unittest --verbose meme.tests.QuoteEngineTests  
 ```
 
 ## To check code Style - PEP8
 ```shell
-pydocstyle src/QuoteEngine/Quote.py  
+pydocstyle meme/QuoteEngine/QEngine.py  
 ```
