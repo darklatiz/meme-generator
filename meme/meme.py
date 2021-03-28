@@ -1,7 +1,12 @@
 import os
 import random
+import argparse
 
 # @TODO Import your Ingestor and MemeEngine classes
+from QuoteEngine.QEngine import Ingestor
+from QuoteEngine.MemeEngine import MemeEngine
+
+INGESTOR = Ingestor()
 
 
 def generate_meme(path=None, body=None, author=None):
@@ -17,7 +22,7 @@ def generate_meme(path=None, body=None, author=None):
 
         img = random.choice(imgs)
     else:
-        img = path[0]
+        img = path
 
     if body is None:
         quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
@@ -26,7 +31,7 @@ def generate_meme(path=None, body=None, author=None):
                        './_data/DogQuotes/DogQuotesCSV.csv']
         quotes = []
         for f in quote_files:
-            quotes.extend(Ingestor.parse(f))
+            quotes.extend(INGESTOR.parse(f))
 
         quote = random.choice(quotes)
     else:
@@ -35,7 +40,7 @@ def generate_meme(path=None, body=None, author=None):
         quote = QuoteModel(body, author)
 
     meme = MemeEngine('./tmp')
-    path = meme.make_meme(img, quote.body, quote.author)
+    path = meme.make_meme(img, quote.quote, quote.author)
     return path
 
 
@@ -44,5 +49,9 @@ if __name__ == "__main__":
     # path - path to an image file
     # body - quote body to add to the image
     # author - quote author to add to the image
-    args = None
+    arg_parser = argparse.ArgumentParser(description='Meme generator CLI Cool Tool')
+    arg_parser.add_argument('--path', type=str, help='Image path to load.', default=None)
+    arg_parser.add_argument('--body', type=str, help='Image path to load.', default=None)
+    arg_parser.add_argument('--author', type=str, help='Image path to load.', default=None)
+    args = arg_parser.parse_args()
     print(generate_meme(args.path, args.body, args.author))
