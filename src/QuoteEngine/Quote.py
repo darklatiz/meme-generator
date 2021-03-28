@@ -8,12 +8,26 @@ class QuoteModel:
 
     def __init__(self, author, body):
         """Create a simple Quote Model containing the author and the body of the Quote."""
-        self.author = author
-        self.body = body
+        self.__author = author
+        self.__body = body
+
+    @property
+    def quote(self):
+        """Create a property to access quotes' body value"""
+        return self.__body
+
+    @property
+    def author(self):
+        return self.__author
+
+    @quote.setter
+    def quote(self, new_quote):
+        """Set new value to quotes' body"""
+        self.__body = new_quote
 
     def __str__(self):
         """Create a readable representation of the Quote."""
-        return f"I am A Quote: {self.author} said '{self.body}'"
+        return f"I am A Quote: {self.author} said '{self.quote}'"
 
 
 class IngestorInterface(ABC):
@@ -27,16 +41,25 @@ class IngestorInterface(ABC):
         cls.allowed_extensions = allowed
 
     @classmethod
+    def clean(cls, word: str):
+        """Clean remove characters"""
+        w = word.strip().replace("'", "").replace('"', "")
+        return w
+
+    @classmethod
     def can_ingest(cls, path: str) -> bool:
         """Check if the ingestor is able to parse a file."""
-        if path is None or len(path) <= 0:
+        if path is None or len(path) <= 0 or '.' not in path:
             raise Exception("Path is not valid")
+        index = -1
+        while path[index] != '.':
+            index -= 1
 
-        parts = path.split('.')
-        if len(parts) < 2:
-            raise Exception("The file name is not valid, it is possible that the file does not have extension")
+        ext = path[index + 1:]
 
-        return parts[-1] in cls.allowed_extensions
+        if ext not in cls.allowed_extensions:
+            return False
+        return True
 
     @classmethod
     @abstractmethod
@@ -51,7 +74,20 @@ class TXTIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a TEXT file and create a list of Quote Models."""
-        pass
+
+        if cls.can_ingest(path):
+            quotes = list()
+            with open(path, 'r') as in_file:
+                for line in in_file:
+                    # line = "line" - author and To be or not to be - Perrofono
+                    parts = line.split('-')
+                    quote_body = cls.clean(parts[0])
+                    quote_author = cls.clean(parts[1])
+                    quotes.append(QuoteModel(quote_author, quote_body))
+
+            return quotes
+        else:
+            raise Exception(f"File {path} cannot be parsed")
 
     def __str__(self):
         """Found String representation of the object."""
@@ -80,3 +116,13 @@ class PDFIngestor(IngestorInterface):
     def __str__(self):
         """Create String representation of the Object."""
         return f"I am a PDFIngestor, extensions allowed = {self.allowed_extensions}"
+
+
+class DOCXIngestor(IngestorInterface):
+    """DOCx Ingestor."""
+
+    def parse(cls, path: str) -> List[QuoteModel]:
+        """Parse a Doc File and create a list of Quote Models."""
+
+    def __str__(self):
+        """Create String representation of the object."""
