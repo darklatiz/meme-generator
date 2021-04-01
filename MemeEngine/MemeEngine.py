@@ -34,6 +34,8 @@ class MemeEngine:
 
         # adjusting text in case of text too long
         if len(quote) > 29:
+            logging.info(f'Text is too long for image size,'
+                         f' lets cut the text in rows...')
             counter_len = 1
             rows = []
             row = ''
