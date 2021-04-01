@@ -48,6 +48,43 @@ tou can pres F5 and every time a new meme will be generated.
    - The quote's body
    - The quote's author
    - when you click "create" a meme with the input provided will be displayed.
+   
+# CLI application
+1. To see command's help
+```shell
+python -m meme -h 
+ 
+usage: meme.py [-h] [--path PATH] [--body BODY] [--author AUTHOR]
+
+Meme generator CLI Cool Tool
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --path PATH      Image path to load, if not provided a random image will be chose
+  --body BODY      Quote's Body, If not provided a random quote will be chose.
+  --author AUTHOR  Quote's Author, If not provided a random quote will be chose.
+```   
+2. Execute the next command to execute a command line program and generate your meme, the program will give you the path of meme generated.
+```shell
+python -m meme --body="A good quote..." --author="El Luigi"
+./tmp/meme-maker-2021-04-01 01:06:59.613848.jpg
+```
+
+# Overview
+
+The application has the next modules
+
+1. QEngine, this module has all the ingestors, a ingestor will extract quotes from PDF, text files, Docx files and CSV files.
+Every ingestor will implement the parse method.
+   
+2. MemeEngine will use 
+   - all the ingestors to create the quotes
+   - Pillow library to load, add the text to the image and save the image to the disk
+   
+3. app.py is the web application and will use QEgine and MemeEngie to provide the web server to create the memes.
+4. meme.py is the cli application and will use QEgine and MemeEngie to provide the web server to create the memes, we use
+argsparse module to create the optional arguments of the command.
+
 
 ## Tests
 
