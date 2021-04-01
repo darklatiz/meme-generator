@@ -3,7 +3,7 @@
 import unittest
 import pathlib
 
-from meme.QuoteEngine.QEngine import TXTIngestor, CSVIngestor, PDFIngestor, DOCXIngestor, QuoteModel, Ingestor
+from QuoteEngine.QEngine import TXTIngestor, CSVIngestor, PDFIngestor, DOCXIngestor, QuoteModel, Ingestor
 
 TESTS_ROOT = (pathlib.Path(__file__).parent).resolve()
 TEST_TXT_FILES = [TESTS_ROOT / 'test-dog-quotes.txt', TESTS_ROOT / 'test-simple-lines.text']

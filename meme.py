@@ -40,7 +40,7 @@ def generate_meme(path=None, body=None, author=None):
             raise Exception('Author Required if Body is Used')
         quote = QuoteModel(author, body)
 
-    meme = MemeEngine('./tmp')
+    meme = MemeEngine('tmp')
     path = meme.make_meme(img, quote.quote, quote.author)
     return path
 
