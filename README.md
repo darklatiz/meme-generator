@@ -12,7 +12,7 @@ The generated meme is made of:
     - Example: To be or not to be by Homer
 3. Meme generated sample
 
-![Meme generated sample](https://github.com/darklatiz/meme-generator/blob/main/meme/tmp/meme-maker-2021-04-01%2000:12:59.839551.jpg)
+![Meme generated sample](https://github.com/darklatiz/meme-generator/blob/main/tmp/meme-maker-2021-04-01%2000:12:59.839551.jpg)
 
 ## Installation
 1. Clone this project or fork it
