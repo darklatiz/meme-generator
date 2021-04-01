@@ -2,9 +2,9 @@
 import random
 import os
 import requests
-from flask import Flask, render_template, abort, request
+from flask import Flask, render_template, request
 
-from QuoteEngine.MemeEngine import MemeEngine
+from MemeEngine.MemeEngine import MemeEngine
 from QuoteEngine.QEngine import Ingestor
 
 INGESTOR = Ingestor()
