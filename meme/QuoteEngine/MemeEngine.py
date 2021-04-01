@@ -8,12 +8,13 @@ class MemeEngine:
     """The meme engine."""
 
     def __init__(self, tmp_dir):
-        """Initializing the meme engine."""
+        """Initialize the meme engine."""
         self.tmp_folder = tmp_dir
 
     @staticmethod
     def resize_image(image_path, width):
-        """Load image
+        """Load image.
+
         @param image_path:
         @param width:
         """
@@ -28,6 +29,7 @@ class MemeEngine:
 
     @staticmethod
     def add_text(image, author: str, quote: str):
+        """Add text to an image, in this case an author and a quote."""
         meme_font = ImageFont.truetype('_data/Chango-Regular.ttf', 20)
 
         # adjusting text in case of text too long
@@ -47,14 +49,13 @@ class MemeEngine:
         image_editable.text((5, 15), meme_text, fill=(0, 0, 0), font=meme_font)
 
     def make_meme(self, img_path, quote, author, width=500) -> str:
-        """
+        """Make a meme from an image and a quote.
 
         @param img_path:
         @param quote:
         @param author:
         @param width:
         """
-
         # resize
         image = self.resize_image(img_path, width)
         # create meme

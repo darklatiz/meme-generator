@@ -180,6 +180,7 @@ class Ingestor(IngestorInterface):
     __ingestors = []
 
     def __init__(self):
+        """Initialize Ingestor with default extension files to ingest."""
         txt_ = TXTIngestor()
         txt_.set_allowed_extensions(['txt', 'text'])
 
