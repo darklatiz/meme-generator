@@ -2,33 +2,34 @@
 import random
 import os
 import requests
+import pathlib
 from flask import Flask, render_template, request
 
 from MemeEngine.MemeEngine import MemeEngine
 from QuoteEngine.QEngine import Ingestor
 
 INGESTOR = Ingestor()
-
 app = Flask(__name__)
+meme = MemeEngine('static')
 
-meme = MemeEngine('./static')
+ROOT_DIRECTORY = (pathlib.Path(__file__).parent).resolve()
 
 
 def setup():
     """Load all resources."""
-    quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
-                   './_data/DogQuotes/DogQuotesDOCX.docx',
-                   './_data/DogQuotes/DogQuotesPDF.pdf',
-                   './_data/DogQuotes/DogQuotesCSV.csv']
+    quote_files = [ROOT_DIRECTORY / '_data/DogQuotes/DogQuotesTXT.txt',
+                   ROOT_DIRECTORY / '_data/DogQuotes/DogQuotesDOCX.docx',
+                   ROOT_DIRECTORY / '_data/DogQuotes/DogQuotesPDF.pdf',
+                   ROOT_DIRECTORY / '_data/DogQuotes/DogQuotesCSV.csv']
 
     # quote_files variable
     quotes = []
     for f in quote_files:
-        quotes.extend(INGESTOR.parse(f))
+        quotes.extend(INGESTOR.parse(str(f)))
 
     quote = random.choice(quotes)
 
-    images_path = "./_data/photos/dog/"
+    images_path = "_data/photos/dog/"
 
     # images within the images images_path directory
     imgs = []
@@ -66,7 +67,7 @@ def meme_post():
     # 1. Use requests to save the image from the image_url
     #    form param to a temp local file.
     # 2. Use the meme object to generate a meme using this temp
-    #    file and the body and author form paramaters.
+    #    file and the body and author form parameters.
     # 3. Remove the temporary saved image.
 
     img_url = request.form['image_url']
@@ -75,7 +76,7 @@ def meme_post():
     random_img = False
     if img_url is not None and len(img_url) > 0:
         r = requests.get(img_url)
-        path = "./tmp/download.jpg"
+        path = "tmp/download.jpg"
         with open(path, "wb") as f:
             f.write(r.content)
     else:
