@@ -49,9 +49,13 @@ if __name__ == "__main__":
     # path - path to an image file
     # body - quote body to add to the image
     # author - quote author to add to the image
-    arg_parser = argparse.ArgumentParser(description='Meme generator CLI Cool Tool')
-    arg_parser.add_argument('--path', type=str, help='Image path to load, if not provided a random image will be chose', default=None)
-    arg_parser.add_argument('--body', type=str, help='Quote\'s Body, If not provided a random quote will be chose.', default=None)
-    arg_parser.add_argument('--author', type=str, help='Quote\'s Author, If not provided a random quote will be chose.', default=None)
+    arg_parser = argparse.ArgumentParser(
+        description='Meme generator CLI Cool Tool')
+    arg_parser.add_argument('--path', type=str,
+                            help='Image path to load', default=None)
+    arg_parser.add_argument('--body', type=str,
+                            help='Quote\'s Body.', default=None)
+    arg_parser.add_argument('--author', type=str,
+                            help='Quote\'s Author.', default=None)
     args = arg_parser.parse_args()
     print(generate_meme(args.path, args.body, args.author))

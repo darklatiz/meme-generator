@@ -83,7 +83,8 @@ def meme_post():
         path = random.choice(imgs)
         random_img = True
 
-    if (quote is None or len(quote) <= 0) or (author is None or len(author) <= 0):
+    if (quote is None or len(quote) <= 0) or \
+            (author is None or len(author) <= 0):
         q = random.choice(quotes)
         quote = q.quote
         author = q.author

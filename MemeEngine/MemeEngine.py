@@ -1,4 +1,4 @@
-"""Module contains all the logic to manipulate an image and convert it to a MEME."""
+"""Module contains all the logic to manipulate an image."""
 from datetime import datetime
 
 from PIL import Image, ImageFont, ImageDraw
