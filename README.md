@@ -74,15 +74,15 @@ python -m meme --body="A good quote..." --author="El Luigi"
 
 The application has the next modules
 
-1. QEngine, this module has all the ingestors, a ingestor will extract quotes from PDF, text files, Docx files and CSV files.
+1. QEngine, this module has all the ingestors, an ingestor will extract quotes from PDF, text files, Docx files and CSV files.
 Every ingestor will implement the parse method.
    
 2. MemeEngine will use 
    - all the ingestors to create the quotes
    - Pillow library to load, add the text to the image and save the image to the disk
    
-3. app.py is the web application and will use QEgine and MemeEngie to provide the web server to create the memes.
-4. meme.py is the cli application and will use QEgine and MemeEngie to provide the web server to create the memes, we use
+3. app.py is the web application and will use QEngine and MemeEngine to provide the web server to create the memes.
+4. meme.py is the cli application and will use QEngine and MemeEngine to provide the web server to create the memes, we use
 argsparse module to create the optional arguments of the command.
 
 

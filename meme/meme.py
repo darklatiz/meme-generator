@@ -3,7 +3,7 @@ import os
 import random
 import argparse
 
-from QuoteEngine.MemeEngine import MemeEngine
+from MemeEngine.MemeEngine import MemeEngine
 from QuoteEngine.QEngine import Ingestor
 from QuoteEngine.QEngine import QuoteModel
 
