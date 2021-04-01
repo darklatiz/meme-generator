@@ -11,7 +11,10 @@ class QuoteModel:
     """Class representing a Quote."""
 
     def __init__(self, author, body):
-        """Create a simple Quote Model containing the author and the body of the Quote."""
+        """Create a simple Quote Model.
+
+        containing the author and the body of the Quote.
+        """
         self.__author = author
         self.__body = body
 
@@ -36,7 +39,10 @@ class QuoteModel:
 
 
 class IngestorInterface(ABC):
-    """Base/Parent class to create a family os strategies for parsing different kind of files."""
+    """Base/Parent class to create a family of strategies.
+
+    parsing different kind of files.
+    """
 
     allowed_extensions = []
 
@@ -104,7 +110,8 @@ class TXTIngestor(IngestorInterface):
 
     def __str__(self):
         """Found String representation of the object."""
-        return f"I am a TXTIngestor, extensions_allowed = {self.allowed_extensions}"
+        return f"I am a TXTIngestor, " \
+               f"extensions_allowed = {self.allowed_extensions}"
 
 
 class CSVIngestor(IngestorInterface):
@@ -126,7 +133,8 @@ class CSVIngestor(IngestorInterface):
 
     def __str__(self):
         """Create String representation of the Object."""
-        return f"I am a CSVIngestor, extensions allowed = {self.allowed_extensions}"
+        return f"I am a CSVIngestor," \
+               f" extensions allowed = {self.allowed_extensions}"
 
 
 class PDFIngestor(IngestorInterface):
@@ -150,7 +158,8 @@ class PDFIngestor(IngestorInterface):
 
     def __str__(self):
         """Create String representation of the Object."""
-        return f"I am a PDFIngestor, extensions allowed = {self.allowed_extensions}"
+        return f"I am a PDFIngestor," \
+               f" extensions allowed = {self.allowed_extensions}"
 
 
 class DOCXIngestor(IngestorInterface):
@@ -199,8 +208,10 @@ class Ingestor(IngestorInterface):
 
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
-        """Parse the proper ingestor, if available, to parse given path file."""
+        """Parse the proper ingestor.
+
+        if available, to parse given path file.
+        """
         for ingestor in cls.__ingestors:
             if ingestor.can_ingest(path):
                 return ingestor.parse(path)
-

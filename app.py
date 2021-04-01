@@ -3,6 +3,7 @@ import random
 import os
 import requests
 import pathlib
+import logging
 from flask import Flask, render_template, request
 
 from MemeEngine.MemeEngine import MemeEngine
@@ -13,6 +14,8 @@ app = Flask(__name__)
 meme = MemeEngine('static')
 
 ROOT_DIRECTORY = (pathlib.Path(__file__).parent).resolve()
+
+logging.basicConfig(level=logging.INFO)
 
 
 def setup():
@@ -75,15 +78,26 @@ def meme_post():
     author = request.form['author']
     random_img = False
     if img_url is not None and len(img_url) > 0:
-        r = requests.get(img_url)
-        path = "tmp/download.jpg"
-        with open(path, "wb") as f:
-            f.write(r.content)
+        try:
+            r = requests.get(img_url)
+            if r.ok:
+                path = "tmp/download.jpg"
+                with open(path, "wb") as f:
+                    f.write(r.content)
+            else:
+                random_img, path = get_random_img()
+        except Exception as e:
+            logging.error(f'A connection error has '
+                          f'happened due to {e} resource {img_url}')
+            logging.info(f'Choosing a random image...')
+            random_img, path = get_random_img()
     else:
-        path = random.choice(imgs)
-        random_img = True
+        logging.info(f'Choosing a random image...')
+        random_img, path = get_random_img()
 
-    if (quote is None or len(quote) <= 0) or (author is None or len(author) <= 0):
+    if (quote is None or len(quote) <= 0) or \
+            (author is None or len(author) <= 0):
+        logging.info(f'Choosing a random QUOTE...')
         q = random.choice(quotes)
         quote = q.quote
         author = q.author
@@ -95,6 +109,10 @@ def meme_post():
             os.remove(path)
 
     return render_template('meme.html', path=res)
+
+
+def get_random_img():
+    return True, random.choice(imgs)
 
 
 if __name__ == "__main__":

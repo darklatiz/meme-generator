@@ -1,4 +1,4 @@
-"""Module contains all the logic to manipulate an image and convert it to a MEME."""
+"""Module contains all the logic to manipulate an image."""
 from datetime import datetime
 
 from PIL import Image, ImageFont, ImageDraw
@@ -34,6 +34,8 @@ class MemeEngine:
 
         # adjusting text in case of text too long
         if len(quote) > 29:
+            logging.info(f'Text is too long for image size,'
+                         f' lets cut the text in rows...')
             counter_len = 1
             rows = []
             row = ''
