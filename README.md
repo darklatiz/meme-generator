@@ -1,5 +1,22 @@
 # Meme Generator
 
+The meme generator is a fun python 3 application, with this application we can generate a meme using:
+- Command line
+- [Flask Application](https://flask.palletsprojects.com/en/1.1.x/quickstart/)
+
+The generated meme is made of:
+1. A random dog image
+2. A quote, the quote has
+    - Author
+    - Body
+    - Example: To be or not to be by Homer
+3. Meme generated sample
+
+![Meme generated sample](meme/tmp/meme-maker-2021-04-01 00:12:59.839551.jpg)
+
+## Installation
+1. Clone this project or fork it
+
 ## [Pillow](https://pillow.readthedocs.io/en/stable/installation.html)
 
 - Installation
