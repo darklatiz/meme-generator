@@ -16,10 +16,7 @@ The generated meme is made of:
 
 ## Installation
 1. Clone this project or fork it
-
-## [Pillow](https://pillow.readthedocs.io/en/stable/installation.html)
-
-- Installation
+2. Install [Pillow](https://pillow.readthedocs.io/en/stable/installation.html)
 ```shell
 python3 -m pip install --upgrade pip
 ```
@@ -27,12 +24,30 @@ python3 -m pip install --upgrade pip
 ```shell
 python3 -m pip install --upgrade Pillow
 ```
-
-## [Python DOCX](https://python-docx.readthedocs.io/en/latest/user/install.html#install)
-
+3. Install [Python DOCX](https://python-docx.readthedocs.io/en/latest/user/install.html#install)
 ```shell
 pip install python-docx
 ```
+4. Install [xpdfreader](https://www.xpdfreader.com/download.html)
+5. Install [Flask](https://pypi.org/project/Flask/)
+```shell
+pip install -U Flask
+```
+
+# Meme Creator web application
+1. Start web server
+```shell
+python3 app.py
+```
+2. Access the application using the next url http://127.0.0.1:5000/ you will see a meme being generated and display
+in your browser. The meme is generated randomly, the meme engine will select an image, a quote, and the author randomly
+tou can pres F5 and every time a new meme will be generated.
+  
+3. We can generate a custom meme by accessing the next url http://127.0.0.1:5000/create a html page will ask you:
+   - A valid URL like [this image](https://cdn.pixabay.com/photo/2020/05/12/17/04/wind-turbine-5163993_960_720.jpg)
+   - The quote's body
+   - The quote's author
+   - when you click "create" a meme with the input provided will be displayed.
 
 ## Tests
 

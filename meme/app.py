@@ -72,16 +72,26 @@ def meme_post():
     img_url = request.form['image_url']
     quote = request.form['body']
     author = request.form['author']
+    random_img = False
+    if img_url is not None and len(img_url) > 0:
+        r = requests.get(img_url)
+        path = "./tmp/download.jpg"
+        with open(path, "wb") as f:
+            f.write(r.content)
+    else:
+        path = random.choice(imgs)
+        random_img = True
 
-    r = requests.get(img_url)
-    path = "./tmp/download.jpg"
-    with open(path, "wb") as f:
-        f.write(r.content)
+    if (quote is None or len(quote) <= 0) or (author is None or len(author)):
+        q = random.choice(quotes)
+        quote = q.quote
+        author = q.author
 
     res = meme.make_meme(path, quote, author)
 
-    if os.path.exists(path):
-        os.remove(path)
+    if not random_img:
+        if os.path.exists(path):
+            os.remove(path)
 
     return render_template('meme.html', path=res)
 
