@@ -2,12 +2,15 @@
 import os
 import random
 import argparse
+import logging
 
 from MemeEngine.MemeEngine import MemeEngine
 from QuoteEngine.QEngine import Ingestor
 from QuoteEngine.QEngine import QuoteModel
 
 INGESTOR = Ingestor()
+
+logging.basicConfig(level=logging.INFO)
 
 
 def generate_meme(path=None, body=None, author=None):
@@ -58,4 +61,5 @@ if __name__ == "__main__":
     arg_parser.add_argument('--author', type=str,
                             help='Quote\'s Author.', default=None)
     args = arg_parser.parse_args()
-    print(generate_meme(args.path, args.body, args.author))
+    res_path = generate_meme(args.path, args.body, args.author)
+    logging.info(f"The generated image = {res_path}")

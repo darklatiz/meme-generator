@@ -15,6 +15,11 @@ meme = MemeEngine('static')
 
 ROOT_DIRECTORY = (pathlib.Path(__file__).parent).resolve()
 
+MESSAGE_404 = 'We had technical problems while' \
+              ' rendering your meme, 404!!, please try again... :)'
+MESSAGE_CONNECTION_ERROR = 'A Connection error happened,' \
+              ' it is possible that the image url does not exist at all...'
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -85,12 +90,14 @@ def meme_post():
                 with open(path, "wb") as f:
                     f.write(r.content)
             else:
-                random_img, path = get_random_img()
+                return render_template('404.html',
+                                       message=MESSAGE_404)
         except Exception as e:
             logging.error(f'A connection error has '
                           f'happened due to {e} resource {img_url}')
             logging.info(f'Choosing a random image...')
-            random_img, path = get_random_img()
+            return render_template('404.html',
+                                   message=MESSAGE_CONNECTION_ERROR)
     else:
         logging.info(f'Choosing a random image...')
         random_img, path = get_random_img()
