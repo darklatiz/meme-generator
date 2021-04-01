@@ -118,7 +118,8 @@ class CSVIngestor(IngestorInterface):
             with open(path, 'r') as file_csv:
                 reader = csv.DictReader(file_csv)
                 for row in reader:
-                    quotes.append(QuoteModel(row['author'], row['body']))
+                    if row['author'] is not None and row['body'] is not None:
+                        quotes.append(QuoteModel(row['author'], row['body']))
                 return quotes
         else:
             raise Exception(f"File {path} cannot be parsed")
@@ -163,7 +164,8 @@ class DOCXIngestor(IngestorInterface):
             quotes = list()
             for p in doc.paragraphs:
                 author, body = cls.tokenize_quote(p.text, '-')
-                quotes.append(QuoteModel(author, body))
+                if author is not None and body is not None:
+                    quotes.append(QuoteModel(author, body))
             return quotes
         else:
             raise Exception(f"File {path} cannot be parsed")

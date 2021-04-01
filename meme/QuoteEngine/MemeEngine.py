@@ -28,9 +28,9 @@ class MemeEngine:
 
     def add_text(self, image, author, quote):
         meme_font = ImageFont.truetype('_data/Chango-Regular.ttf', 20)
-        meme_text = f"{quote} - {author}"
+        meme_text = f"{quote}\n By {author}"
         image_editable = ImageDraw.Draw(image)
-        image_editable.text((15, 15), meme_text, (237, 230, 211), font=meme_font)
+        image_editable.text((15, 15), meme_text, fill=(0, 0, 0), font=meme_font)
 
     def make_meme(self, img_path, text, author, width=500) -> str:
         """
@@ -40,10 +40,11 @@ class MemeEngine:
         @param author:
         @param width:
         """
+
         # resize
         image = self.resize_image(img_path, width)
-
         # create meme
         self.add_text(image, author, text)
-        image.save(f"{self.tmp_folder}/nombre-{datetime.now()}.jpg")
-        print(image)
+        file_name = f"{self.tmp_folder}/meme-maker-{datetime.now()}.jpg"
+        image.save(file_name)
+        return file_name
