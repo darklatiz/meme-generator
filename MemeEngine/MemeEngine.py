@@ -1,7 +1,9 @@
 """Module contains all the logic to manipulate an image."""
+import logging
 from datetime import datetime
-
 from PIL import Image, ImageFont, ImageDraw
+
+logging.basicConfig(level=logging.INFO)
 
 
 class MemeEngine:
