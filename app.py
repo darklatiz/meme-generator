@@ -76,12 +76,14 @@ def meme_post():
     random_img = False
     if img_url is not None and len(img_url) > 0:
         r = requests.get(img_url)
-        path = "tmp/download.jpg"
-        with open(path, "wb") as f:
-            f.write(r.content)
+        if r.ok:
+            path = "tmp/download.jpg"
+            with open(path, "wb") as f:
+                f.write(r.content)
+        else:
+            random_img, path = get_random_img()
     else:
-        path = random.choice(imgs)
-        random_img = True
+        random_img, path = get_random_img()
 
     if (quote is None or len(quote) <= 0) or \
             (author is None or len(author) <= 0):
@@ -96,6 +98,10 @@ def meme_post():
             os.remove(path)
 
     return render_template('meme.html', path=res)
+
+
+def get_random_img():
+    return True, random.choice(imgs)
 
 
 if __name__ == "__main__":
