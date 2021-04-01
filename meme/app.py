@@ -69,9 +69,21 @@ def meme_post():
     #    file and the body and author form paramaters.
     # 3. Remove the temporary saved image.
 
-    path = None
+    img_url = request.form['image_url']
+    quote = request.form['body']
+    author = request.form['author']
 
-    return render_template('meme.html', path=path)
+    r = requests.get(img_url)
+    path = "./tmp/download.jpg"
+    with open(path, "wb") as f:
+        f.write(r.content)
+
+    res = meme.make_meme(path, quote, author)
+
+    if os.path.exists(path):
+        os.remove(path)
+
+    return render_template('meme.html', path=res)
 
 
 if __name__ == "__main__":

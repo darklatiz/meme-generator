@@ -26,17 +26,31 @@ class MemeEngine:
         except OSError:
             pass
 
-    def add_text(self, image, author, quote):
+    @staticmethod
+    def add_text(image, author: str, quote: str):
         meme_font = ImageFont.truetype('_data/Chango-Regular.ttf', 20)
+
+        # adjusting text in case of text too long
+        if len(quote) > 29:
+            counter_len = 1
+            rows = []
+            row = ''
+            for part_quote in quote.split(' '):
+                row = row + part_quote + " "
+                if len(row) > (counter_len * 30):
+                    row += '\n'
+                    counter_len += 1
+            quote = row
+
         meme_text = f"{quote}\n By {author}"
         image_editable = ImageDraw.Draw(image)
-        image_editable.text((15, 15), meme_text, fill=(0, 0, 0), font=meme_font)
+        image_editable.text((5, 15), meme_text, fill=(0, 0, 0), font=meme_font)
 
-    def make_meme(self, img_path, text, author, width=500) -> str:
+    def make_meme(self, img_path, quote, author, width=500) -> str:
         """
 
         @param img_path:
-        @param text:
+        @param quote:
         @param author:
         @param width:
         """
@@ -44,7 +58,7 @@ class MemeEngine:
         # resize
         image = self.resize_image(img_path, width)
         # create meme
-        self.add_text(image, author, text)
+        self.add_text(image, author, quote)
         file_name = f"{self.tmp_folder}/meme-maker-{datetime.now()}.jpg"
         image.save(file_name)
         return file_name
