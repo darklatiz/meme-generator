@@ -90,10 +90,10 @@ argsparse module to create the optional arguments of the command.
 
 - To execute tests
 ```shell
-python -m unittest --verbose meme.tests.QuoteEngineTests  
+python -m unittest --verbose tests.QuoteEngineTests  
 ```
 
 ## To check code Style - PEP8
 ```shell
-pydocstyle meme/QuoteEngine/QEngine.py  
+pydocstyle QuoteEngine/QEngine.py  
 ```
