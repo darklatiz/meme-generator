@@ -16,7 +16,8 @@ meme = MemeEngine('static')
 ROOT_DIRECTORY = (pathlib.Path(__file__).parent).resolve()
 
 MESSAGE_404 = 'We had technical problems while' \
-              ' rendering your meme, 404!!, please try again... :)'
+              ' rendering your meme, it could be a 404!!, ' \
+              'you put a link to a page with text. Please try again... :)'
 MESSAGE_CONNECTION_ERROR = 'A Connection error happened,' \
               ' it is possible that the image url does not exist at all...'
 
@@ -85,7 +86,9 @@ def meme_post():
     if img_url is not None and len(img_url) > 0:
         try:
             r = requests.get(img_url)
-            if r.ok:
+            content_type = r.headers.get('content-type', '')
+            logging.info(f"Content type: {content_type}")
+            if r.ok and "image" in content_type:
                 path = "tmp/download.jpg"
                 with open(path, "wb") as f:
                     f.write(r.content)
